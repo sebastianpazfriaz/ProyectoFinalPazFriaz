@@ -1,0 +1,196 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Body */
+body {
+    background-color: #f2f2f2;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Títulos */
+h1, h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Contenedor principal */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+.contenido {
+    display: flex;
+    gap: 40px;
+    width: 100%;
+    max-width: 1200px;
+    justify-content: center;
+}
+
+/* Contenedor de productos */
+#prods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    flex: 3;
+    min-width: 250px;
+}
+
+/* Card de cada juego */
+.card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Hover */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+/* Boton normal */
+.card button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.card button:hover {
+    background-color: #218838;
+}
+
+/* Boton cuando no hay stock */
+.card button.agotado {
+    background-color: #dc3545;
+    cursor: not-allowed;
+}
+
+.agotado::after {
+    content: " (Sin stock)";
+}
+
+/* Carrito */
+#carrito {
+    flex: none;
+    width: 320px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    height: fit-content;
+    text-align: left;
+}
+
+/* Productos dentro del carrito */
+#carrito .producto {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+/* Botón eliminar */
+#carrito .producto button {
+    padding: 3px 6px;
+    border: none;
+    border-radius: 4px;
+    background-color: #dc3545;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#carrito .producto button:hover {
+    background-color: #c82333;
+}
+
+/* Total del carrito */
+#carrito strong {
+    display: block;
+    margin-top: 15px;
+    font-size: 18px;
+    color: #222;
+}
+
+.totalCarrito {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-top: 15px;
+}
+
+#btnComprarTotal {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+#btnComprarTotal:hover {
+    background-color: #218838;
+}
+
+
+
+/* Botón abajo */
+#resetStock {
+    margin: 40px auto 0;
+    padding: 14px 24px;
+    width: 100%;
+    max-width: 300px;
+
+    border: none;
+    border-radius: 10px;
+    background-color: #ffc107;
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+#resetStock:hover {
+    background-color: #e0a800;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    main {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #prods, #carrito {
+        width: 90%;
+    }
+}
