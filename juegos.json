@@ -1,0 +1,7 @@
+[
+  { "id": 1, "nombre": "Devil May Cry 5", "cantidad": 3, "precio": 500, "imagen": "assets/Devil-May-Cry-5-.png" },
+  { "id": 2, "nombre": "Hades 2", "cantidad": 1, "precio": 700, "imagen": "assets/hades-2.jpg" },
+  { "id": 3, "nombre": "Metal Gear Solid 3", "cantidad": 8, "precio": 800, "imagen": "assets/metal-gear-solid-delta-snake-eater.jpg" },
+  { "id": 4, "nombre": "Silent Hill F", "cantidad": 5, "precio": 900, "imagen": "assets/silent-hill-f.jpg" },
+  { "id": 5, "nombre": "Sonic Racing Crossworlds", "cantidad": 0, "precio": 5100, "imagen": "assets/sonic-racing-crossworlds.jpg" }
+]

@@ -36,6 +36,32 @@ main {
     justify-content: center;
 }
 
+
+/* Botones de navegación */
+.navegacion {
+    margin: 20px 0;
+}
+
+.navegacion button {
+    padding: 12px 24px;
+    border-radius: 10px;
+    background-color: #007bff; /* azul */
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: all 0.2s ease;
+}
+
+.navegacion button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+
 /* Contenedor de productos */
 #prods {
     display: grid;
@@ -56,6 +82,14 @@ main {
     justify-content: space-between;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card img.img-juego {
+    width: 100%;          /* ocupa todo el ancho de la card */
+    height: 150px;        /* altura fija para uniformidad */
+    object-fit: cover;    /* recorta la imagen si es necesario para no deformar */
+    border-radius: 8px;
+    margin-bottom: 10px;
 }
 
 /* Hover */
@@ -100,16 +134,22 @@ main {
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     height: fit-content;
     text-align: left;
+
+    margin: 0 auto;          /* centra horizontalmente */
+    display: flex;           /* para organizar su contenido interno */
+    flex-direction: column;  /* productos uno debajo del otro */
+    align-items: center;     /* centra elementos internos si querés */
 }
 
 /* Productos dentro del carrito */
 #carrito .producto {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* mantiene botón a la derecha */
     align-items: center;
     margin-bottom: 10px;
     border-bottom: 1px solid #ddd;
     padding-bottom: 5px;
+    width: 100%; /* ocupa todo el ancho del carrito */
 }
 
 /* Botón eliminar */
@@ -137,13 +177,15 @@ main {
 
 .totalCarrito {
     display: flex;
-    justify-content: space-between; 
+    justify-content: center; /* centra total y botón */
     align-items: center;
+    gap: 15px; /* espacio entre total y botón */
     margin-top: 15px;
+    width: 100%;
 }
 
 #btnComprarTotal {
-    padding: 8px 15px;
+    padding: 8px 20px; /* un poco más ancho para verse mejor */
     border: none;
     border-radius: 6px;
     background-color: #28a745;
