@@ -1,20 +1,20 @@
-// ==========================
+
 // Inicialización
-// ==========================
+
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 let juegos = JSON.parse(localStorage.getItem("juegos")) || [];
 
-// ==========================
+
 // Guardar LocalStorage
-// ==========================
+
 const guardarLocal = () => {
     localStorage.setItem("carrito", JSON.stringify(carrito));
     localStorage.setItem("juegos", JSON.stringify(juegos));
 };
 
-// ==========================
+
 // Cargar carrito en DOM
-// ==========================
+
 const cargarCarrito = () => {
     const contenedor = document.getElementById("productos-container");
     const totalCont = document.getElementById("total-container");
@@ -92,9 +92,9 @@ const cargarCarrito = () => {
     });
 };
 
-// ==========================
+
 // Vaciar carrito completo
-// ==========================
+
 const vaciarCarrito = () => {
     carrito.forEach(p => {
         const juegoOriginal = juegos.find(j => j.id === p.id);
@@ -105,9 +105,9 @@ const vaciarCarrito = () => {
     cargarCarrito();
 };
 
-// ==========================
+
 // Evento vaciar carrito
-// ==========================
+
 
 document.getElementById("btnVaciarCarrito").addEventListener("click", () => {
     if (carrito.length === 0) {
@@ -194,7 +194,6 @@ formCompra.addEventListener("submit", (e) => {
     });
 });
 
-// ==========================
 // Inicializar
-// ==========================
+
 cargarCarrito();

@@ -62,7 +62,7 @@ button {
     color: #555;
 }
 
-/* Botón Agregar al carrito (verde si hay stock) */
+/* Botón Agregar al carrito*/
 .card button {
     background-color: #28a745; /* verde */
     color: white;
@@ -75,23 +75,21 @@ button {
 }
 
 .card button:hover:not(:disabled) {
-    background-color: #218838; /* verde oscuro */
+    background-color: #218838; 
 }
 
 /* Botón deshabilitado o agotado */
 .card button.agotado {
-    background-color: #dc3545; /* rojo */
+    background-color: #dc3545;
     color: white;
     cursor: not-allowed;
 }
 
 .card button.agotado:hover {
-    background-color: #b02a37; /* rojo oscuro */
+    background-color: #b02a37; 
 }
 
-/* ==========================
-   ESTILOS CARRITO (carrito.html)
-   ========================== */
+/* ESTILOS CARRITO (carrito.html) */
 
 /* Contenedor de cada producto en carrito */
 .producto {
@@ -143,8 +141,7 @@ button {
 
 /* Botón eliminar en carrito */
 .producto button {
-    background-color: #dc3545; /* rojo */
-    color: white;
+    background-color: #dc3545; 
     border: none;
     padding: 8px 12px;
     border-radius: 6px;
@@ -155,12 +152,10 @@ button {
 }
 
 .producto button:hover {
-    background-color: #b02a37; /* rojo oscuro */
+    background-color: #b02a37; 
 }
 
-/* ==========================
-   ESTILOS NAVEGACION
-   ========================== */
+/*ESTILOS NAVEGACION*/
 
 .navegacion {
     max-width: 600px;
@@ -179,29 +174,27 @@ button {
 
 /* Botón Vaciar carrito */
 .navegacion button {
-    background-color: #ffc107; /* amarillo */
-    color: #222;
+    background-color: #ffc107; 
     border: none;
 }
 
 .navegacion button:hover {
-    background-color: #e0a800; /* amarillo oscuro */
+    background-color: #e0a800; 
 }
 
 /* Botón volver a tienda */
 .navegacion a button {
-    background-color: #007bff; /* azul */
-    color: white;
+    background-color: #007bff; 
     border: none;
 }
 
 .navegacion a button:hover {
-    background-color: #0056b3; /* azul oscuro */
+    background-color: #0056b3; 
 }
 
 /* Botón Reiniciar stock */
 #resetStock {
-    background-color: #17a2b8; /* azul-verde */
+    background-color: #17a2b8; 
     color: white;
     border: none;
     padding: 10px 16px;
@@ -210,16 +203,16 @@ button {
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin: 16px auto;
-    display: block; /* centrar */
+    display: block; 
 }
 
 #resetStock:hover {
-    background-color: #138496; /* azul-verde oscuro */
+    background-color: #138496; 
 }
 
-/* ==========================
+/*
    ESTILOS FORMULARIO COMPRA
-   ========================== */
+*/
 
 .form-compra {
     max-width: 350px;
@@ -269,10 +262,7 @@ button {
     background-color: #218838;
 }
 
-/* ==========================
-   TOTAL
-   ========================== */
-
+/* TOTAL */
 #total-container {
     max-width: 600px;
     margin: 12px auto 30px; /* espacio extra al formulario */
