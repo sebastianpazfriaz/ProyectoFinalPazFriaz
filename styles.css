@@ -26,8 +26,6 @@ main {
     align-items: center;
 }
 
-
-
 .contenido {
     display: flex;
     gap: 40px;
@@ -35,7 +33,6 @@ main {
     max-width: 1200px;
     justify-content: center;
 }
-
 
 /* Botones de navegación */
 .navegacion {
@@ -61,7 +58,6 @@ main {
     box-shadow: 0 6px 15px rgba(0,0,0,0.3);
 }
 
-
 /* Contenedor de productos */
 #prods {
     display: grid;
@@ -82,14 +78,6 @@ main {
     justify-content: space-between;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.card img.img-juego {
-    width: 100%;          /* ocupa todo el ancho de la card */
-    height: 150px;        /* altura fija para uniformidad */
-    object-fit: cover;    /* recorta la imagen si es necesario para no deformar */
-    border-radius: 8px;
-    margin-bottom: 10px;
 }
 
 /* Hover */
@@ -134,22 +122,21 @@ main {
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     height: fit-content;
     text-align: left;
-
-    margin: 0 auto;          /* centra horizontalmente */
-    display: flex;           /* para organizar su contenido interno */
-    flex-direction: column;  /* productos uno debajo del otro */
-    align-items: center;     /* centra elementos internos si querés */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Productos dentro del carrito */
 #carrito .producto {
     display: flex;
-    justify-content: space-between; /* mantiene botón a la derecha */
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
     border-bottom: 1px solid #ddd;
     padding-bottom: 5px;
-    width: 100%; /* ocupa todo el ancho del carrito */
+    width: 100%;
 }
 
 /* Botón eliminar */
@@ -177,15 +164,15 @@ main {
 
 .totalCarrito {
     display: flex;
-    justify-content: center; /* centra total y botón */
+    justify-content: center;
     align-items: center;
-    gap: 15px; /* espacio entre total y botón */
+    gap: 15px;
     margin-top: 15px;
     width: 100%;
 }
 
 #btnComprarTotal {
-    padding: 8px 20px; /* un poco más ancho para verse mejor */
+    padding: 8px 20px;
     border: none;
     border-radius: 6px;
     background-color: #28a745;
@@ -199,15 +186,12 @@ main {
     background-color: #218838;
 }
 
-
-
 /* Botón abajo */
 #resetStock {
     margin: 40px auto 0;
     padding: 14px 24px;
     width: 100%;
     max-width: 300px;
-
     border: none;
     border-radius: 10px;
     background-color: #ffc107;
@@ -215,7 +199,6 @@ main {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     transition: background-color 0.2s, transform 0.2s;
 }
@@ -235,4 +218,60 @@ main {
     #prods, #carrito {
         width: 90%;
     }
+}
+
+/* =======================
+   NUEVOS ESTILOS PARA CARRITO MODERNO
+   ======================= */
+
+/* Card de producto en carrito */
+.producto-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.producto-card img.img-carrito {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.producto-card .info {
+    flex: 1;
+    margin-left: 10px;
+    text-align: left;
+}
+
+.producto-card button {
+    padding: 5px 10px;
+    border-radius: 6px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.producto-card button:hover {
+    background-color: #c82333;
+}
+
+/* Contenedor total y botón comprar */
+#total-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
 }

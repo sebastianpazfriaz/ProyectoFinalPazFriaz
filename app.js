@@ -22,16 +22,13 @@ const cargarJuegos = () => {
     fetch("juegos.json")
         .then(res => res.json())
         .then(data => {
-            // ⚡ Usar LocalStorage si existe, sino cargar desde JSON
             const juegosGuardados = JSON.parse(localStorage.getItem("juegos"));
             juegos = juegosGuardados || data;
 
-            guardarLocal(); // asegurar que LocalStorage esté actualizado
-            cargarDOM();    // mostrar productos
+            guardarLocal();
+            cargarDOM();
         })
-        .catch(err => {
-            console.error("Error al cargar juegos.json:", err);
-        });
+        .catch(err => console.error("Error al cargar juegos.json:", err));
 };
 
 // ==========================
@@ -88,20 +85,31 @@ const cargarDOM = () => {
                 guardarLocal();
                 cargarDOM();
                 if (typeof cargarCarrito === "function") cargarCarrito();
+
+                // 🚀 Notificación con Toastify
+                Toastify({
+                    text: `${juegoSeleccionado.nombre} agregado al carrito ✅`,
+                    duration: 2500,
+                    gravity: "top",
+                    position: "right",
+                    style: {
+                        background: "linear-gradient(to right, #00b09b, #96c93d)"
+                    }
+                }).showToast();
             }
         });
     });
 };
 
-
+// ==========================
 // Botón reiniciar stock
-
+// ==========================
 
 document.getElementById("resetStock").addEventListener("click", () => {
     fetch("juegos.json")
       .then(res => res.json())
       .then(data => {
-        juegos = data; // restablece stock original
+        juegos = data;
         carrito = [];
         guardarLocal();
         cargarDOM();
@@ -110,8 +118,8 @@ document.getElementById("resetStock").addEventListener("click", () => {
       .catch(err => console.error("Error al reiniciar stock desde JSON:", err));
 });
 
-
+// ==========================
 // Inicialización
+// ==========================
 
-
-cargarJuegos(); // carga inicial: LocalStorage o JSON
+cargarJuegos();
