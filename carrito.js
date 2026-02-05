@@ -1,14 +1,12 @@
 // ==========================
 // Inicialización
 // ==========================
-
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 let juegos = JSON.parse(localStorage.getItem("juegos")) || [];
 
 // ==========================
 // Guardar LocalStorage
 // ==========================
-
 const guardarLocal = () => {
     localStorage.setItem("carrito", JSON.stringify(carrito));
     localStorage.setItem("juegos", JSON.stringify(juegos));
@@ -17,132 +15,186 @@ const guardarLocal = () => {
 // ==========================
 // Cargar carrito en DOM
 // ==========================
-
 const cargarCarrito = () => {
-    const contProductos = document.getElementById("productos-container");
-    const contTotal = document.getElementById("total-container");
+    const contenedor = document.getElementById("productos-container");
+    const totalCont = document.getElementById("total-container");
+    const formCompra = document.getElementById("formularioCompra");
 
-    if (!contProductos || !contTotal) return;
+    if (!contenedor || !totalCont || !formCompra) return;
 
-    contProductos.innerHTML = "";
-    contTotal.innerHTML = "";
-
-    // Si el carrito está vacío
-    if (carrito.length === 0) {
-        contProductos.innerHTML = `
-            <p>Tu carrito está vacío 😢</p>
-        `;
-        return;
-    }
-
+    contenedor.innerHTML = "";
     let total = 0;
 
-    // Mostrar productos
-    carrito.forEach((item, index) => {
-        const subtotal = item.precio * item.cantidadCarrito;
+    carrito.forEach((producto, index) => {
+        const subtotal = producto.precio * producto.cantidadCarrito;
         total += subtotal;
 
         const div = document.createElement("div");
-        div.classList.add("producto-card");
+        div.classList.add("producto");
         div.innerHTML = `
-            <img src="${juegos.find(j => j.id === item.id)?.imagen || ''}" 
-                 alt="${item.nombre}" class="img-carrito">
+            <img src="${producto.imagen}" alt="${producto.nombre}" class="img-juego">
             <div class="info">
-                <h4>${item.nombre}</h4>
-                <p>Cantidad: ${item.cantidadCarrito}</p>
-                <p>Subtotal: $${subtotal}</p>
+                <h4>${producto.nombre}</h4>
+                <span>Cantidad: ${producto.cantidadCarrito}</span>
+                <span>Subtotal: $${subtotal}</span>
             </div>
             <button data-index="${index}">Eliminar</button>
         `;
-        contProductos.appendChild(div);
+        contenedor.appendChild(div);
     });
 
-    // Total y botón comprar
-    contTotal.innerHTML = `
-        <strong>Total: $${total}</strong>
-        <button id="btnComprarTotal">Comprar</button>
-    `;
+    // Mostrar total
+    if (carrito.length > 0) {
+        totalCont.innerHTML = `<strong>Total: $${total}</strong>`;
+        formCompra.style.display = "block"; // Mostrar formulario si hay productos
+    } else {
+        totalCont.innerHTML = "<p>El carrito está vacío</p>";
+        formCompra.style.display = "none"; // Ocultar formulario si no hay productos
+    }
 
-    // Comprar carrito
-    document.getElementById("btnComprarTotal").addEventListener("click", () => {
-        Swal.fire({
-            title: '¿Confirmar compra?',
-            text: `El total es $${total}.`,
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, comprar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                carrito = [];
-                guardarLocal();
-                cargarCarrito();
-
-                Swal.fire({
-                    title: 'Compra realizada!',
-                    text: `Gracias por tu compra de $${total}`,
-                    icon: 'success',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-            }
-        });
-    });
-
-    // Eliminar unidades
-    contProductos.querySelectorAll(".producto-card button").forEach(btn => {
-        btn.addEventListener("click", e => {
+    // Eliminar productos
+    contenedor.querySelectorAll("button").forEach(btn => {
+        btn.addEventListener("click", async e => {
             const index = Number(e.target.dataset.index);
             const producto = carrito[index];
+            const juegoOriginal = juegos.find(j => j.id === producto.id);
+            if (!producto || !juegoOriginal) return;
 
-            Swal.fire({
-                title: `Eliminar ${producto.nombre}`,
-                text: `Tienes ${producto.cantidadCarrito} unidad(es) en el carrito. ¿Cuántas quieres eliminar?`,
-                input: 'number',
-                inputAttributes: {
-                    min: 1,
-                    max: producto.cantidadCarrito,
-                    step: 1
-                },
-                inputValue: 1,
-                showCancelButton: true,
-                confirmButtonText: 'Eliminar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    let cantidadEliminar = Number(result.value);
-                    if (cantidadEliminar < 1 || cantidadEliminar > producto.cantidadCarrito) {
-                        cantidadEliminar = 1;
-                    }
+            if (producto.cantidadCarrito > 1) {
+                const { value: cantidadEliminar } = await Swal.fire({
+                    title: `Eliminar ${producto.nombre}`,
+                    input: 'number',
+                    inputLabel: 'Cantidad a eliminar',
+                    inputAttributes: {
+                        min: 1,
+                        max: producto.cantidadCarrito,
+                        step: 1
+                    },
+                    inputValue: 1,
+                    showCancelButton: true
+                });
 
-                    // Aumentar stock original
-                    const juegoOriginal = juegos.find(j => j.id === producto.id);
-                    if (juegoOriginal) juegoOriginal.cantidad += cantidadEliminar;
-
-                    // Reducir cantidad en carrito
-                    producto.cantidadCarrito -= cantidadEliminar;
-                    if (producto.cantidadCarrito <= 0) {
-                        carrito.splice(index, 1);
-                    }
-
+                if (cantidadEliminar) {
+                    juegoOriginal.cantidad += Number(cantidadEliminar);
+                    producto.cantidadCarrito -= Number(cantidadEliminar);
+                    if (producto.cantidadCarrito === 0) carrito.splice(index, 1);
                     guardarLocal();
                     cargarCarrito();
-
-                    Swal.fire({
-                        title: 'Producto actualizado',
-                        text: `${producto.nombre} reducido en ${cantidadEliminar} unidad(es).`,
-                        icon: 'success',
-                        timer: 1500,
-                        showConfirmButton: false
-                    });
                 }
-            });
+
+            } else {
+                juegoOriginal.cantidad += 1;
+                carrito.splice(index, 1);
+                guardarLocal();
+                cargarCarrito();
+            }
         });
     });
 };
 
 // ==========================
-// Inicializar
+// Vaciar carrito completo
+// ==========================
+const vaciarCarrito = () => {
+    carrito.forEach(p => {
+        const juegoOriginal = juegos.find(j => j.id === p.id);
+        if (juegoOriginal) juegoOriginal.cantidad += p.cantidadCarrito;
+    });
+    carrito = [];
+    guardarLocal();
+    cargarCarrito();
+};
+
+// ==========================
+// Evento vaciar carrito
 // ==========================
 
+document.getElementById("btnVaciarCarrito").addEventListener("click", () => {
+    if (carrito.length === 0) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Carrito vacío',
+            text: 'No hay productos para vaciar.',
+            timer: 2000,
+            showConfirmButton: false
+        });
+        return;
+    }
+
+    Swal.fire({
+        title: '¿Vaciar todo el carrito?',
+        text: "Esta acción no se puede deshacer.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, vaciar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            vaciarCarrito();
+            Swal.fire({
+                icon: 'success',
+                title: 'Carrito vaciado',
+                timer: 1300,
+                showConfirmButton: false
+            });
+        }
+    });
+});
+
+// ==========================
+// Manejar formulario de compra
+// ==========================
+const formCompra = document.getElementById("compraForm");
+formCompra.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    if (carrito.length === 0) {
+        Swal.fire({
+            icon: "warning",
+            title: "Carrito vacío",
+            text: "Agrega productos antes de finalizar la compra"
+        });
+        return;
+    }
+
+    const nombre = document.getElementById("nombre").value;
+    const apellido = document.getElementById("apellido").value;
+    const correo = document.getElementById("correo").value;
+    const metodoPago = document.getElementById("metodoPago").value;
+
+    const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidadCarrito, 0);
+
+    Swal.fire({
+        title: `Confirmar compra`,
+        html: `
+            <p>Nombre: ${nombre} ${apellido}</p>
+            <p>Correo: ${correo}</p>
+            <p>Método de pago: ${metodoPago}</p>
+            <p>Total a pagar: $${total}</p>
+        `,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Sí, comprar",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            carrito = [];
+            guardarLocal();
+            cargarCarrito();
+            formCompra.reset();
+
+            Swal.fire({
+                title: "Compra realizada",
+                text: `Gracias por tu compra de $${total}`,
+                icon: "success",
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+    });
+});
+
+// ==========================
+// Inicializar
+// ==========================
 cargarCarrito();

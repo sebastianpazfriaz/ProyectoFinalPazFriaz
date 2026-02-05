@@ -1,40 +1,31 @@
 // ==========================
 // Inicialización
 // ==========================
-
 let juegos = []; // se llenará desde JSON o LocalStorage
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
 // ==========================
 // Guardar LocalStorage
 // ==========================
-
 const guardarLocal = () => {
     localStorage.setItem("carrito", JSON.stringify(carrito));
     localStorage.setItem("juegos", JSON.stringify(juegos));
 };
 
 // ==========================
-// Cargar juegos desde JSON / LocalStorage
+// Cargar juegos desde JSON
 // ==========================
-
-const cargarJuegos = () => {
-    fetch("juegos.json")
-        .then(res => res.json())
-        .then(data => {
-            const juegosGuardados = JSON.parse(localStorage.getItem("juegos"));
-            juegos = juegosGuardados || data;
-
-            guardarLocal();
-            cargarDOM();
-        })
-        .catch(err => console.error("Error al cargar juegos.json:", err));
-};
+fetch("juegos.json")
+  .then(res => res.json())
+  .then(data => {
+    juegos = JSON.parse(localStorage.getItem("juegos")) || data;
+    cargarDOM();
+  })
+  .catch(err => console.error("Error al cargar juegos.json:", err));
 
 // ==========================
 // Función para cargar productos en DOM
 // ==========================
-
 const cargarDOM = () => {
     const prods = document.getElementById("prods");
     if (!prods) return;
@@ -59,7 +50,7 @@ const cargarDOM = () => {
         prods.appendChild(div);
     });
 
-    // Eventos de botones Comprar
+    // Eventos de botones "Agregar al carrito"
     document.querySelectorAll(".card button").forEach(btn => {
         btn.addEventListener("click", e => {
             const id = Number(e.target.dataset.id);
@@ -69,7 +60,7 @@ const cargarDOM = () => {
                 // Disminuir stock
                 juegoSeleccionado.cantidad--;
 
-                // Agregar al carrito o aumentar cantidad
+                // Agregar al carrito o aumentar cantidadCarrito
                 const itemCarrito = carrito.find(item => item.id === id);
                 if (itemCarrito) {
                     itemCarrito.cantidadCarrito++;
@@ -78,24 +69,24 @@ const cargarDOM = () => {
                         id: juegoSeleccionado.id,
                         nombre: juegoSeleccionado.nombre,
                         precio: juegoSeleccionado.precio,
-                        cantidadCarrito: 1
+                        cantidadCarrito: 1,
+                        imagen: juegoSeleccionado.imagen  // <-- clave para mostrar la imagen
                     });
                 }
 
                 guardarLocal();
                 cargarDOM();
-                if (typeof cargarCarrito === "function") cargarCarrito();
 
-                // 🚀 Notificación con Toastify
-                Toastify({
-                    text: `${juegoSeleccionado.nombre} agregado al carrito ✅`,
-                    duration: 2500,
-                    gravity: "top",
-                    position: "right",
-                    style: {
-                        background: "linear-gradient(to right, #00b09b, #96c93d)"
-                    }
-                }).showToast();
+                // Notificación con Toastify
+            
+                    Toastify({
+                        text: `${juegoSeleccionado.nombre} agregado al carrito ✅`,
+                        duration: 2500, // duración en ms
+                        gravity: "top", // top o bottom
+                        position: "right", // left, center, right
+                        backgroundColor: "#28a745",
+                        stopOnFocus: true // que se mantenga si pasas el mouse
+                    }).showToast();
             }
         });
     });
@@ -104,7 +95,6 @@ const cargarDOM = () => {
 // ==========================
 // Botón reiniciar stock
 // ==========================
-
 document.getElementById("resetStock").addEventListener("click", () => {
     fetch("juegos.json")
       .then(res => res.json())
@@ -113,7 +103,6 @@ document.getElementById("resetStock").addEventListener("click", () => {
         carrito = [];
         guardarLocal();
         cargarDOM();
-        if (typeof cargarCarrito === "function") cargarCarrito();
       })
       .catch(err => console.error("Error al reiniciar stock desde JSON:", err));
 });
@@ -121,5 +110,4 @@ document.getElementById("resetStock").addEventListener("click", () => {
 // ==========================
 // Inicialización
 // ==========================
-
-cargarJuegos();
+cargarDOM();
